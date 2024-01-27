@@ -13,13 +13,6 @@ function toggleThumbnails() {
           thumbnails.forEach((thumbnail) => {
             thumbnail.style.display = "none";
           });
-          observer = new MutationObserver(function () {
-            const thumbnails = document.querySelectorAll(".ytd-thumbnail");
-            thumbnails.forEach((thumbnail) => {
-              thumbnail.style.display = "none";
-            });
-          });
-          observer.observe(document, { childList: true, subtree: true });
         },
       });
     } else if (tab.url.includes("youtube.com")) {
@@ -30,9 +23,6 @@ function toggleThumbnails() {
           thumbnails.forEach((thumbnail) => {
             thumbnail.style.display = "block";
           });
-          if (observer) {
-            observer.disconnect();
-          }
         },
       });
     }
