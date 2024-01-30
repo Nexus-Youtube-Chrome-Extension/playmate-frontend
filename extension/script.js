@@ -49,6 +49,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  let toggleShortsCheckbox = document.querySelector("#toggleShorts input[type='checkbox']");
+  chrome.storage.sync.get(["toggleShorts"], function (result) {
+    toggleShortsCheckbox.checked = result.toggleShorts;
+  });
+  toggleShortsCheckbox.addEventListener("change", function () {
+    chrome.storage.sync.set({ toggleShorts: this.checked }, function () {
+      chrome.runtime.sendMessage({ message: "toggleShorts" });
+    });
+  });
+
   let data = [];
   let selected = [];
   chrome.storage.sync.get(["selected"], function (result) {
@@ -72,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?type=channel&part=snippet&q=${value}&key=AIzaSyBHppsEJFU-TEvlOEKPuQya7uQU5ruHsw0`
+      `https://www.googleapis.com/youtube/v3/search?type=channel&part=snippet&q=${value}&key=AIzaSyCRt0wFl3xK5rI12uKtm-FqUWxujIZx_30`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -224,6 +234,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 
   summarizeButton.addEventListener("click", async function () {
     try {
+      this.textContent = "Loading...";
       const response = await fetch("http://localhost:4004/summarize", {
         method: "POST",
         headers: {
@@ -235,11 +246,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const url2 = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url2;
-      link.download = "Summarized.txt";
+      link.download = "Summarized.md";
       link.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      this.textContent = "Sumarize";
     }
   });
 });

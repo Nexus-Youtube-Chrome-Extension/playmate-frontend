@@ -1,5 +1,6 @@
 let thumbnailsVisible = false;
 let DndVisible = true;
+let shortsVisible = true;
 let skipAds = false;
 let youTime = 0;
 let fMode = false;
@@ -338,6 +339,66 @@ function filterChannel() {
   });
 }
 
+const toggleShorts = () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    let tab = tabs[0];
+
+    if (tab.url.includes("youtube.com") && shortsVisible) {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: function () {
+          window.observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.type === "childList") {
+                const elements = document.querySelectorAll('[title*="Shorts"]');
+
+                elements.forEach((element) => {
+                  element.parentNode.removeChild(element);
+                });
+
+                const thumbnails = document.querySelectorAll(".ytd-reel-shelf-renderer");
+                thumbnails.forEach((thumbnail) => {
+                  thumbnail.style.display = "none";
+                });
+
+                const thumbnails1 = document.querySelectorAll(
+                  "#dismissible.ytd-rich-shelf-renderer"
+                );
+                thumbnails1.forEach((thumbnail) => {
+                  thumbnail.style.display = "none";
+                });
+
+                const thumbnails2 = document.querySelectorAll(
+                  "ytd-rich-grid-renderer[is-shorts-grid] #contents.ytd-rich-grid-renderer"
+                );
+                thumbnails2.forEach((thumbnail) => {
+                  thumbnail.style.display = "none";
+                });
+
+                const thumbnails3 = document.querySelectorAll(
+                  'yt-tab-shape[tab-title="Shorts"] .yt-tab-shape-wiz__tab'
+                );
+                thumbnails3.forEach((thumbnail) => {
+                  thumbnail.style.display = "none";
+                });
+              }
+            });
+          });
+          window.observer.observe(document.body, { childList: true, subtree: true });
+        },
+      });
+    } else {
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: function () {
+          location.reload();
+        },
+      });
+    }
+    shortsVisible = !shortsVisible;
+  });
+};
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === "toggleThumbnails") {
     toggleThumbnails();
@@ -362,5 +423,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     skipMode();
   } else if (request.message === "filter") {
     filterChannel();
+  } else if (request.message === "toggleShorts") {
+    toggleShorts();
   }
 });

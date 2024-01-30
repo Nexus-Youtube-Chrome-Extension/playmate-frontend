@@ -118,16 +118,16 @@ input:checked + .slider.blue {
 /* Container for suggestions */
 .suggestions-box {
   position: absolute;
+  width: 100%; /* Adjust as needed */
+  top: 100%;
   border: 1px solid #d4d4d4;
   border-top: none;
   z-index: 99;
-  top: 100%;
   left: 0;
   right: 0;
   background-color: white;
-  max-height: 200px;
+  max-height: 120px;
   overflow-y: auto;
-  width: calc(100% - 2px);
 }
 
 /* Style for the suggestion buttons */
@@ -191,3 +191,57 @@ input:checked + .slider.blue {
 .selected-items-container button:hover {
   background-color: darkred;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.btn,
+.btn_download {
+  margin-right: 20px;
+}
+
+.butn {
+  background: #424bf5;
+  margin-left: 20px;
+  font-size: 15px;
+  width: 80px;
+  height: 30px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+.butn:hover {
+  background: white;
+  border: 1px solid #424bf5;
+  color: #424bf5;
+  transform: scale(10px);
+  transition: 0.5s;
+}
+/* .basic-corgi-mode {
+  width: 500px;
+  animation: 95s linear 0s infinite normal none running corgis;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("./utils/chocolatechip.gif"), url("./utils/redvelvet.gif");
+  height: 120px;
+}
+@keyframes corgis {
+  0% {
+    background-position: 120% center, 120% center, 120% center, 120% center;
+  }
+  25%,
+  30% {
+    background-position: -20% center, -20% center, -20% center, -20% center;
+  }
+  55%,
+  65% {
+    background-position: -20% center, 120% center, -20% center, 120% center;
+  }
+  100%,
+  95% {
+    background-position: -20% center, 120% center, 120% center, -20% center;
+  }
+} */
