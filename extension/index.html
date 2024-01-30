@@ -24,6 +24,63 @@
           <span class="slider blue"></span>
         </label>
       </div>
+      <div>
+        <button id="filter">Filter</button>
+      </div>
+      <div class="autocomplete">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          aria-controls="suggestionsBox"
+          aria-autocomplete="list"
+          aria-haspopup="true"
+          role="combobox"
+          placeholder="Search cities..."
+        />
+        <div
+          id="suggestionsBox"
+          class="suggestions-box"
+          role="listbox"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
+      </div>
+      <div
+        id="selectedItemsContainer"
+        class="selected-items-container"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+      <div style="display: flex">
+        <p>Focus mode</p>
+        <label class="switch" id="focusMode">
+          <input type="checkbox" />
+          <span class="slider blue"></span>
+        </label>
+      </div>
+      <div style="display: flex">
+        <p>DnD mode</p>
+        <label class="switch" id="DnDMode">
+          <input type="checkbox" />
+          <span class="slider blue"></span>
+        </label>
+      </div>
+      <div style="display: flex">
+        <p>skip mode</p>
+        <label class="switch" id="skipMode">
+          <input type="checkbox" />
+          <span class="slider blue"></span>
+        </label>
+      </div>
+      <div style="display: flex">
+        <p>Summarize Video</p>
+        <button class="btn">Sumarize</button>
+      </div>
+      <div style="display: flex">
+        <p>Download Video</p>
+        <button class="btn_download">Download</button>
+      </div>
     </div>
   </body>
 </html>

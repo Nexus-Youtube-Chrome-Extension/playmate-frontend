@@ -90,7 +90,7 @@ input:checked + .slider.red {
   border-radius: 50%;
 }
 
-input:checked + .slider.red { 
+input:checked + .slider.red {
   background-color: crimson;
 }
 
@@ -100,4 +100,94 @@ input:focus + .slider.blue {
 
 input:checked + .slider.blue {
   background-color: #424bf5;
+}
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style the input field */
+.search-input {
+  border: 1px solid #d4d4d4;
+  padding: 10px;
+  width: 300px;
+  font-size: inherit;
+}
+
+/* Container for suggestions */
+.suggestions-box {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  max-height: 200px;
+  overflow-y: auto;
+  width: calc(100% - 2px);
+}
+
+/* Style for the suggestion buttons */
+.suggestion-btn {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px solid #d4d4d4;
+  width: 100%;
+  text-align: left;
+}
+
+.suggestion-btn:hover,
+.suggestion-btn.autocomplete-active {
+  background-color: DodgerBlue;
+  color: white;
+}
+
+/* Selected items container */
+.selected-items-container {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #d4d4d4;
+  background-color: #f9f9f9;
+}
+
+.selected-items-container:empty {
+  display: none;
+}
+
+/* Style for selected items */
+.selected-items-container div {
+  margin-right: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  background-color: #e4e4e4;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 90%;
+}
+
+/* Remove button for selected items */
+.selected-items-container button {
+  margin-left: 5px;
+  border: none;
+  background-color: #d80000;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  width: 16px;
+  height: 16px;
+}
+
+.selected-items-container button:hover {
+  background-color: darkred;
 }
