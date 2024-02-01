@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?type=channel&part=snippet&q=${value}&key=AIzaSyCRt0wFl3xK5rI12uKtm-FqUWxujIZx_30`
+      `https://www.googleapis.com/youtube/v3/search?type=channel&part=snippet&q=${value}&key=AIzaSyDTdIBuO29fOEc5CH98B1VL_4fOfWJIkhc`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -259,9 +259,37 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   let url = tabs[0].url;
+  let urlParams = new URLSearchParams(new URL(url).search);
   let downloadBtn = document.querySelector(".btn_download");
+
+  if (urlParams.has("v")) {
+    downloadBtn.disabled = false;
+  } else {
+    downloadBtn.disabled = true;
+  }
+
   downloadBtn.addEventListener("click", async function () {
     const dUrl = `http://localhost:4004/download_chrome_ex?videoUrl=${url}`;
     chrome.tabs.create({ url: dUrl });
   });
+});
+
+chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  let url = tabs[0].url;
+  if (!url.includes("youtube.com")) {
+    document.body.innerHTML = `
+  <div
+    style="
+      width: 200px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content:center;
+    "
+  >
+  <h1>This extension only works on YouTube pages.</h1>
+  </div>`;
+    return;
+  }
 });

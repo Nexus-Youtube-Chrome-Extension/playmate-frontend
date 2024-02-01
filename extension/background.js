@@ -1,7 +1,7 @@
 let thumbnailsVisible = false;
 let DndVisible = true;
 let shortsVisible = true;
-let skipAds = false;
+let skipAds = true;
 let youTime = 0;
 let fMode = false;
 let fInterval;
@@ -116,23 +116,22 @@ function toggleThumbnails() {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: function () {
-          window.observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (mutation.type === "childList") {
-                const thumbnails = document.querySelectorAll(".ytd-thumbnail");
-                const thumbnails2 = document.querySelectorAll(
-                  "#thumbnail.style-scope.ytd-rich-grid-media"
-                );
-                thumbnails2.forEach((thumbnail) => {
-                  thumbnail.style.display = "none";
-                });
-                thumbnails.forEach((thumbnail) => {
-                  thumbnail.style.display = "none";
-                });
-              }
+          function hideThumbnails() {
+            const thumbnails = document.querySelectorAll(".ytd-thumbnail");
+            const thumbnails2 = document.querySelectorAll(
+              "#thumbnail.style-scope.ytd-rich-grid-media"
+            );
+            thumbnails2.forEach((thumbnail) => {
+              thumbnail.style.display = "none";
             });
-          });
+            thumbnails.forEach((thumbnail) => {
+              thumbnail.style.display = "none";
+            });
+          }
+
+          window.observer = new MutationObserver(hideThumbnails);
           window.observer.observe(document.body, { childList: true, subtree: true });
+          setTimeout(hideThumbnails, 500);
         },
       });
     } else if (tab.url.includes("youtube.com")) {
@@ -151,7 +150,7 @@ function DNDMode() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let tab = tabs[0];
 
-    if (tab.url.includes("youtube.com") && DndVisible) {
+    if (tab.url.includes("youtube.com/watch") && DndVisible) {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: function () {
@@ -218,24 +217,30 @@ function skipYouTubeAds() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     if (tabs[0]) {
       let tab = tabs[0];
-      if (tab.url.includes("youtube.com")) {
+      if (tab.url.includes("youtube.com") && skipAds) {
         chrome.scripting.executeScript({
           target: { tabId: tab.id },
           func: function () {
-            window.observer = new MutationObserver(function () {
-              const btn = document.querySelector(".ytp-ad-skip-button-text");
+            function banner() {
               const adElements = document.querySelectorAll(
                 "ytd-ad-slot-renderer, ytd-in-feed-ad-layout-renderer"
               );
               adElements.forEach((adElement) => adElement.remove());
-              if (btn) {
-                btn.click();
-              }
-            });
+            }
+            window.observer = new MutationObserver(banner);
             window.observer.observe(document, { childList: true, subtree: true });
+            setTimeout(banner, 500);
+          },
+        });
+      } else {
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: function () {
+            location.reload();
           },
         });
       }
+      skipAds = !skipAds;
     }
   });
 }
@@ -309,7 +314,7 @@ function filterChannel() {
           chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: function (value) {
-              window.observer = new MutationObserver(function () {
+              function filterVideos() {
                 let videos = document.querySelectorAll("ytd-grid-video-renderer,#dismissible");
                 let channel = value || [];
                 videos.forEach((video) => {
@@ -321,8 +326,11 @@ function filterChannel() {
                     }
                   }
                 });
-              });
+              }
+
+              window.observer = new MutationObserver(filterVideos);
               window.observer.observe(document, { childList: true, subtree: true });
+              setTimeout(filterVideos, 500);
             },
             args: [result.selected],
           });
@@ -339,52 +347,43 @@ function filterChannel() {
   });
 }
 
-const toggleShorts = () => {
+function toggleShorts() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let tab = tabs[0];
-
     if (tab.url.includes("youtube.com") && shortsVisible) {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: function () {
-          window.observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (mutation.type === "childList") {
-                const elements = document.querySelectorAll('[title*="Shorts"]');
-
-                elements.forEach((element) => {
-                  element.parentNode.removeChild(element);
-                });
-
-                const thumbnails = document.querySelectorAll(".ytd-reel-shelf-renderer");
-                thumbnails.forEach((thumbnail) => {
-                  thumbnail.style.display = "none";
-                });
-
-                const thumbnails1 = document.querySelectorAll(
-                  "#dismissible.ytd-rich-shelf-renderer"
-                );
-                thumbnails1.forEach((thumbnail) => {
-                  thumbnail.style.display = "none";
-                });
-
-                const thumbnails2 = document.querySelectorAll(
-                  "ytd-rich-grid-renderer[is-shorts-grid] #contents.ytd-rich-grid-renderer"
-                );
-                thumbnails2.forEach((thumbnail) => {
-                  thumbnail.style.display = "none";
-                });
-
-                const thumbnails3 = document.querySelectorAll(
-                  'yt-tab-shape[tab-title="Shorts"] .yt-tab-shape-wiz__tab'
-                );
-                thumbnails3.forEach((thumbnail) => {
-                  thumbnail.style.display = "none";
-                });
-              }
+          function hideShorts() {
+            const elements = document.querySelectorAll('[title*="Shorts"]');
+            elements.forEach((element) => {
+              element.parentNode.removeChild(element);
             });
-          });
+            const thumbnails = document.querySelectorAll(".ytd-reel-shelf-renderer");
+            thumbnails.forEach((thumbnail) => {
+              thumbnail.style.display = "none";
+            });
+            const thumbnails1 = document.querySelectorAll("#dismissible.ytd-rich-shelf-renderer");
+            thumbnails1.forEach((thumbnail) => {
+              thumbnail.style.display = "none";
+            });
+            const thumbnails2 = document.querySelectorAll(
+              "ytd-rich-grid-renderer[is-shorts-grid] #contents.ytd-rich-grid-renderer"
+            );
+            thumbnails2.forEach((thumbnail) => {
+              thumbnail.style.display = "none";
+            });
+            const thumbnails3 = document.querySelectorAll(
+              'yt-tab-shape[tab-title="Shorts"] .yt-tab-shape-wiz__tab'
+            );
+            thumbnails3.forEach((thumbnail) => {
+              thumbnail.style.display = "none";
+            });
+          }
+
+          window.observer = new MutationObserver(hideShorts);
           window.observer.observe(document.body, { childList: true, subtree: true });
+          setTimeout(hideShorts, 500);
         },
       });
     } else {
@@ -397,16 +396,13 @@ const toggleShorts = () => {
     }
     shortsVisible = !shortsVisible;
   });
-};
+}
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === "toggleThumbnails") {
     toggleThumbnails();
   } else if (request.message === "skipAds") {
-    skipAds = !skipAds;
-    if (skipAds) {
-      skipYouTubeAds();
-    }
+    skipYouTubeAds();
   } else if (request.message === "focusMode") {
     fMode = !fMode;
     if (fMode) {

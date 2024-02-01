@@ -8,111 +8,90 @@
     <title>Document</title>
   </head>
   <body>
-    <div
-      style="
-        width: 480px;
-        height: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      "
-    >
+    <div class="container">
       <div class="header">
-        <h1>Play-Mate</h1>
         <div style="display: flex; align-items: center">
-          <button class="btn butn">Sumarize</button>
+          <img src="./utils/logo-removebg-preview.png" width="30px" height="40px" />
+          <h1>Play-Mate</h1>
+        </div>
+        <div class="header-buttons">
+          <button class="btn butn">Summarize</button>
           <button class="btn_download butn">Download</button>
         </div>
       </div>
-      <div style="display: flex; width: 100%; justify-content: space-evenly">
-        <div style="display: flex; width: 100%; justify-content: space-evenly; align-items: center">
-          <p>Toggle Thumbnails</p>
+      <div class="toggle-grid">
+        <div>
+          <p style="font-size: 12px">Remove Thumbnails</p>
           <label class="switch" id="toggleThumbnails">
             <input type="checkbox" />
             <span class="slider blue" id="round"></span>
           </label>
         </div>
-        <div style="display: flex; width: 100%; justify-content: space-evenly; align-items: center">
-          <p>Remove Banners</p>
+        <div>
+          <p style="font-size: 12.85px">Remove Banners</p>
           <label class="switch" id="skipAds">
             <input type="checkbox" />
             <span class="slider blue" id="round"></span>
           </label>
         </div>
-      </div>
-      <div style="display: flex; width: 100%; justify-content: space-evenly">
-        <div style="display: flex; width: 100%; justify-content: space-evenly; align-items: center">
-          <p>Focus mode</p>
+        <div>
+          <p style="font-size: 12.85px">Focus mode</p>
           <label class="switch" id="focusMode">
             <input type="checkbox" />
             <span class="slider blue" id="round"></span>
           </label>
         </div>
-        <div style="display: flex; width: 100%; justify-content: space-evenly; align-items: center">
-          <p>DnD mode</p>
+        <div>
+          <p style="font-size: 12.85px">DnD mode</p>
           <label class="switch" id="DnDMode">
             <input type="checkbox" />
             <span class="slider blue" id="round"></span>
           </label>
         </div>
-      </div>
-      <div style="display: flex; width: 100%; justify-content: space-evenly">
-        <div style="display: flex; width: 100%; justify-content: space-evenly; align-items: center">
-          <p>Ad Accelerator</p>
+        <div>
+          <p style="font-size: 12.85px">Ad Accelerator</p>
           <label class="switch" id="skipMode">
             <input type="checkbox" />
             <span class="slider blue" id="round"></span>
           </label>
         </div>
-        <div style="display: flex; width: 100%; justify-content: space-evenly; align-items: center">
-          <p>Toggle Shorts</p>
+        <div>
+          <p style="font-size: 12.85px">Remove Shorts</p>
           <label class="switch" id="toggleShorts">
             <input type="checkbox" />
             <span class="slider blue" id="round"></span>
           </label>
         </div>
       </div>
-      <div>
-        <div
-          style="
-            display: flex;
-            width: 100%;
-            align-items: center;
-            justify-content: space-evenly;
-            margin-top: 20px;
-          "
-        >
-          <div class="autocomplete">
-            <input
-              type="text"
-              id="searchInput"
-              class="search-input"
-              aria-controls="suggestionsBox"
-              aria-autocomplete="list"
-              aria-haspopup="true"
-              role="combobox"
-              placeholder="Search channels..."
-            />
-            <div
-              id="suggestionsBox"
-              class="suggestions-box"
-              role="listbox"
-              aria-live="polite"
-              aria-atomic="true"
-            ></div>
-          </div>
-          <div>
-            <button id="filter" class="butn">Filter</button>
-          </div>
+      <div class="filter-bar">
+        <div class="autocomplete">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            aria-controls="suggestionsBox"
+            aria-autocomplete="list"
+            aria-haspopup="true"
+            role="combobox"
+            placeholder="Search channels..."
+          />
+          <div
+            id="suggestionsBox"
+            class="suggestions-box"
+            role="listbox"
+            aria-live="polite"
+            aria-atomic="true"
+            style="border-bottom: none;"
+          ></div>
         </div>
-        <div
-          id="selectedItemsContainer"
-          class="selected-items-container"
-          aria-live="polite"
-          aria-atomic="true"
-        ></div>
+        <button id="filter" style="margin-left: 10px" class="butn">Filter</button>
       </div>
-      <!-- <div class="basic-corgi-mode"></div> -->
+      <div
+        id="selectedItemsContainer"
+        class="selected-items-container"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
     </div>
   </body>
 </html>

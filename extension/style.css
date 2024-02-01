@@ -5,6 +5,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f0f0f0; 
 }
 
 .switch {
@@ -29,9 +30,8 @@ body {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
   transition: 0.4s cubic-bezier(0, 1, 0.5, 1);
-  border-radius: 4px;
+  border-radius: 34px; /* Rounded slider */
 }
 
 .slider:before {
@@ -42,64 +42,20 @@ body {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: 0.4s;
   transition: 0.4s cubic-bezier(0, 1, 0.5, 1);
-  border-radius: 3px;
+  border-radius: 50%; /* Circular handle */
 }
 
 input:checked + .slider {
-  background-color: #52c944;
+  background-color: #ff0000; /* Green background when checked */
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 4px #7efa70;
+  box-shadow: 0 0 8px #c20000;; /* Soft shadow on focus */
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
   transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-input:checked + .slider.red {
-  background-color: crimson;
-}
-
-input:focus + .slider.red {
-  box-shadow: 0 0 4px crimson;
-}
-
-input:checked + .slider.red {
-  background-color: crimson;
-}
-
-#round {
-  border-radius: 34px;
-}
-
-#round:before {
-  border-radius: 50%;
-}
-
-input:checked + .slider.red {
-  background-color: crimson;
-}
-
-input:focus + .slider.blue {
-  box-shadow: 0 0 4px #424bf5;
-}
-
-input:checked + .slider.blue {
-  background-color: #424bf5;
 }
 
 .autocomplete {
@@ -107,72 +63,68 @@ input:checked + .slider.blue {
   display: inline-block;
 }
 
-/* Style the input field */
 .search-input {
-  border: 1px solid #d4d4d4;
+  border: 1px solid #ccc;
   padding: 10px;
   width: 300px;
   font-size: inherit;
+  border-radius: 20px; /* Rounded input */
 }
 
-/* Container for suggestions */
 .suggestions-box {
   position: absolute;
-  width: 100%; /* Adjust as needed */
+  width: 100%;
   top: 100%;
-  border: 1px solid #d4d4d4;
+  border: 1px solid #ccc;
   border-top: none;
   z-index: 99;
-  left: 0;
-  right: 0;
-  background-color: white;
-  max-height: 120px;
+  background-color: #fff;
+  max-height: 100px;
   overflow-y: auto;
+  border-radius: 0 0 10px 10px; /* Rounded bottom corners */
 }
 
-/* Style for the suggestion buttons */
 .suggestion-btn {
   padding: 10px;
   cursor: pointer;
   background-color: #fff;
   border: none;
-  border-bottom: 1px solid #d4d4d4;
+  border-bottom: 1px solid #ccc;
   width: 100%;
   text-align: left;
+  transition: background-color 0.3s ease; /* Smooth background transition */
 }
 
 .suggestion-btn:hover,
 .suggestion-btn.autocomplete-active {
-  background-color: DodgerBlue;
-  color: white;
+  background-color: #f0f0f0; /* Light background on hover */
+  color: #333; /* Dark text color */
 }
 
-/* Selected items container */
 .selected-items-container {
   margin-top: 10px;
   padding: 10px;
-  border: 1px solid #d4d4d4;
+  border: 1px solid #ccc;
   background-color: #f9f9f9;
+  border-radius: 10px; /* Rounded container */
 }
 
 .selected-items-container:empty {
   display: none;
 }
 
-/* Style for selected items */
 .selected-items-container div {
   margin-right: 5px;
   padding: 5px;
   border: 1px solid #ccc;
   background-color: #e4e4e4;
-  border-radius: 4px;
+  border-radius: 20px; /* Rounded selected items */
   display: inline-flex;
   align-items: center;
   margin-bottom: 5px;
   font-size: 90%;
 }
 
-/* Remove button for selected items */
 .selected-items-container button {
   margin-left: 5px;
   border: none;
@@ -197,51 +149,77 @@ input:checked + .slider.blue {
   justify-content: space-between;
   width: 100%;
 }
+
 .btn,
 .btn_download {
-  margin-right: 20px;
+  margin-right: 5px;
 }
 
 .butn {
-  background: #424bf5;
-  margin-left: 20px;
+  /* background: linear-gradient(135deg, #ff001e, #00a6ff); */
+  background: #ff0000;
   font-size: 15px;
-  width: 80px;
-  height: 30px;
+  width: 90px;
+  height: 40px;
   color: white;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  /* padding:20px; */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
 }
+
 .butn:hover {
-  background: white;
-  border: 1px solid #424bf5;
-  color: #424bf5;
-  transform: scale(10px);
-  transition: 0.5s;
+  /* background: linear-gradient(135deg, #f70015, #9cd8ff);  */
+  background: #ba0202;
+  transform: scale(1.05); /* Slightly larger size on hover */
 }
-/* .basic-corgi-mode {
-  width: 500px;
-  animation: 95s linear 0s infinite normal none running corgis;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url("./utils/chocolatechip.gif"), url("./utils/redvelvet.gif");
-  height: 120px;
+
+.container {
+  width: 480px;
+  height: 440px;
+  display: grid;
+  grid-template-rows: auto auto auto 2fr auto;
+  gap: 20px;
+  justify-content: space-evenly;
+  align-items: center;
 }
-@keyframes corgis {
-  0% {
-    background-position: 120% center, 120% center, 120% center, 120% center;
-  }
-  25%,
-  30% {
-    background-position: -20% center, -20% center, -20% center, -20% center;
-  }
-  55%,
-  65% {
-    background-position: -20% center, 120% center, -20% center, 120% center;
-  }
-  100%,
-  95% {
-    background-position: -20% center, 120% center, 120% center, -20% center;
-  }
-} */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.toggle-grid div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.toggle-grid div p {
+  width: 110px;
+}
+
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.selected-items-container {
+  width: 100%;
+}
