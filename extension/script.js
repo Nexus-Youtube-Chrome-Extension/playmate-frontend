@@ -70,28 +70,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const searchInput = document.getElementById("searchInput");
   const suggestionsBox = document.getElementById("suggestionsBox");
-  let currentFocus = -1; // Tracks the currently focused item in the suggestions
+  let currentFocus = -1;
 
-  // Event listener for input changes in the search field
-  searchInput.addEventListener("input", function () {
+  searchInput.addEventListener("input", async function () {
     const value = this.value;
-    // Clear suggestions if less than 2 characters are typed
     if (value.length < 2) {
       suggestionsBox.innerHTML = "";
       return;
     }
 
-    fetch(
-      `https://www.googleapis.com/youtube/v3/search?type=channel&part=snippet&q=${value}&key=AIzaSyDTdIBuO29fOEc5CH98B1VL_4fOfWJIkhc`
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        data = json;
-        // Optional: Log the data if needed
-        data = data.items;
-      });
+    const response = await fetch("https://play-mate-backend.onrender.com/youtube_search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ value: value }),
+    });
 
-    const nameData = data.map((data) => ({ name: data.snippet.title }));
+    const channels = await response.json();
+
+    const nameData = channels.map((channel) => ({ name: channel.name }));
     let suggestions = nameData;
 
     // Filter suggestions based on the input value
@@ -235,7 +233,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   summarizeButton.addEventListener("click", async function () {
     try {
       this.textContent = "Loading...";
-      const response = await fetch("http://localhost:4004/summarize", {
+      const response = await fetch("https://play-mate-backend.onrender.com/summarize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -269,7 +267,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   }
 
   downloadBtn.addEventListener("click", async function () {
-    const dUrl = `http://localhost:4004/download_chrome_ex?videoUrl=${url}`;
+    const dUrl = `https://play-mate-backend.onrender.com/download_chrome_ex?videoUrl=${url}`;
     chrome.tabs.create({ url: dUrl });
   });
 });
