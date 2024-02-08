@@ -406,7 +406,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.message === "focusMode") {
     fMode = !fMode;
     if (fMode) {
-      fInterval = setInterval(trackUser, 5000);
+      fInterval = setInterval(trackUser, 600000);
     } else {
       if (youTime === 1) {
         showBody();

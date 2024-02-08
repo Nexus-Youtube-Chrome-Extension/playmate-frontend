@@ -257,23 +257,6 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   let url = tabs[0].url;
-  let urlParams = new URLSearchParams(new URL(url).search);
-  let downloadBtn = document.querySelector(".btn_download");
-
-  if (urlParams.has("v")) {
-    downloadBtn.disabled = false;
-  } else {
-    downloadBtn.disabled = true;
-  }
-
-  downloadBtn.addEventListener("click", async function () {
-    const dUrl = `https://play-mate-backend.onrender.com/download_chrome_ex?videoUrl=${url}`;
-    chrome.tabs.create({ url: dUrl });
-  });
-});
-
-chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-  let url = tabs[0].url;
   if (!url.includes("youtube.com")) {
     document.body.innerHTML = `
   <div
